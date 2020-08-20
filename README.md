@@ -1,5 +1,5 @@
 # twitter-system-design
-System Design Discussion on Twitter Application
+System Design for Twitter
 
 ![](assets/twwweett.jpg)
 
@@ -10,7 +10,8 @@ Have a look at the Requirements :
 - Tweet : Tweet, Re-tweet, Follow
 - Timeline display : User's Timeline, Home Timeline
 - Trends display
-- Search
+- Recommendation
+- Search and build search timeline.
 
 It is really a breadth system design. We will focus on one of the functionality.
 
@@ -30,8 +31,9 @@ It is really a breadth system design. We will focus on one of the functionality.
 
 # Timeline Display
 ## The first solution
-User's timeline : Select all tweets from tweet table where userid is the current userid. Include the retweets.
-Home Timeline : Select all tweets from tweet table where userid belongs to the list of users followed by the current user.
+User's timeline : Select all tweets from tweet table where userid is the queried userid. Include the retweets.
+
+Home Timeline : Select all tweets from tweet table where userid belongs to the list of users followed by the queried user.
 
 Easy enough to say and super easy to do.
 Well yes, if you have users count falling under 1000s. But look at users sample activity as per current usage on twitter:
@@ -49,11 +51,20 @@ Solution is a write based fanout approach. Do a lot of processing when tweets ar
 A simple flow of tweet looks like,
 
 User A Tweeted
+
 Through Load Balancer tweet will flow into back-end servers
+
 Server node will save tweet in DB/cache
+
 Server node will fetch all the users that follow User A from the cache
+
 Server node will inject this tweet into in-memory timelines of his followers
+
 Eventually, all followers of User A will see the tweet of User A in their timeline
+
+![](assets/tweetflow1.png)
+
+![](assets/tweetflow2.png)
 
 BUT does it work always? is it efficient?
 
@@ -64,6 +75,8 @@ User A timeline : Merge following timelines:
 - User A timeline from Cache.
 - Recent tweets from celebrity followed by user A
 - Ad/Promoted tweeds from Ad services.
+
+![](assets/celebtweetflow.png)
 
 Handle Online Users:
 - Online users are handled exactly in whatsapp way of messaging them.
@@ -112,6 +125,8 @@ Covered in the trending algorithm.
 Search timeline : a different topic, different time.
 
 # Analytics of tweets
+
+Twitter uses Hadoop as analytics tool.
 
 
 # References
