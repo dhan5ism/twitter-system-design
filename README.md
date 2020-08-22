@@ -71,7 +71,7 @@ Eventually, all followers of User A will see the tweet of User A in their timeli
 
 ![](assets/tweetflow2.png)
 
-BUT does it work always? is it efficient?
+BUT does it work always? Yes, additionally needs handling of special users.
 
 Handle celebrity users: A user with millions of follower.
 
