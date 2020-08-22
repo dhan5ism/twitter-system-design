@@ -136,4 +136,10 @@ https://medium.com/@narengowda/system-design-for-twitter-e737284afc95
 
 https://blog.twitter.com/engineering/en_us/topics/infrastructure/2017/the-infrastructure-behind-twitter-scale.html
 
+https://blogs.ischool.berkeley.edu/i290-abdt-s12/
+
+http://highscalability.com/blog/2013/7/8/the-architecture-twitter-uses-to-deal-with-150m-active-users.html
+
+
+
 
