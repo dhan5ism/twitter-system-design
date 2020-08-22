@@ -13,7 +13,7 @@ Have a look at the Requirements :
 - Recommendation
 - Search and build search timeline.
 
-It is really a breadth system design. We will focus on one of the functionality.
+It is really a breadth oriented system design. We will focus on one of the functionality.
 
 # Non Functional Requirements
 - Read Heavy System
@@ -30,6 +30,11 @@ It is really a breadth system design. We will focus on one of the functionality.
 
 
 # Timeline Display
+
+Services :
+    
+    getUserTimeline(userID)
+    getHomeTimeline(userID)
 ## The first solution
 User's timeline : Select all tweets from tweet table where userid is the queried userid. Include the retweets.
 
@@ -141,10 +146,4 @@ https://medium.com/@narengowda/system-design-for-twitter-e737284afc95
 
 https://blog.twitter.com/engineering/en_us/topics/infrastructure/2017/the-infrastructure-behind-twitter-scale.html
 
-https://blogs.ischool.berkeley.edu/i290-abdt-s12/
-
 http://highscalability.com/blog/2013/7/8/the-architecture-twitter-uses-to-deal-with-150m-active-users.html
-
-
-
-
