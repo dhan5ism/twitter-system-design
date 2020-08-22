@@ -121,12 +121,17 @@ Getting 5000 tweets in a minute is an example of twitter trend.
 
 Covered in the trending algorithm. 
 # How twitter perform a search and builds a search timeline
+## Search and Pull are Inverses
+Search and pull look remarkably similar but they have a property that is inverted from each other.
 
-Search timeline : a different topic, different time.
+## On the home timeline:
+- Write. when a tweet  comes in there’s an O(n) process to write to Redis clusters, where n is the number of people following you. Painful for Lady Gaga and Barack Obama where they are doing 10s of millions of inserts across the cluster. All the Redis clusters are backing disk, the Flock cluster stores the user timeline to disk, but usually timelines are found in RAM in the Redis cluster.
+- Read. Via API or the web it’s 0(1) to find the right Redis machine. Twitter is optimized to be highly available on the read path on the home timeline. Read path is in the 10s of milliseconds. Twitter is primarily a consumption mechanism, not a production mechanism. 300K requests per second for reading and 6000 RPS for writing.
+## On the search timeline:
+- Write. when a tweet comes in and hits the Ingester only one Early Bird machine is hit. Write time path is O(1). A single tweet is ingested in under 5 seconds between the queuing and processing to find the one Early Bird to write it to.
+- Read. When a read comes in it must do an 0(n) read across the cluster. Most people don’t use search so they can be efficient on how to store tweets for search. But they pay for it in time. Reading is on the order of 100 msecs. Search never hits disk. The entire Lucene index is in RAM so scatter-gather reading is efficient as they never hit disk.
 
-# Analytics of tweets
-
-Twitter uses Hadoop as analytics tool.
+Text of the tweet is almost irrelevant to most of the infrastructure. Text is almost irrelevant except perhaps on Search, Trends, or What’s Happening pipelines. The home timeline doesn’t care almost at all.
 
 
 # References
